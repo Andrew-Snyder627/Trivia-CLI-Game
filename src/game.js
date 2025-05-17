@@ -2,6 +2,7 @@ const prompts = require("@inquirer/prompts");
 const chalk = require("chalk");
 const questions = require("../data/questions");
 const { startTimer } = require("./timer");
+const { checkAnswer } = require("./utils");
 
 async function startGame() {
   console.log(chalk.green("\n Welcome to the Sports Trivia Challenge!!"));
@@ -14,6 +15,7 @@ async function startGame() {
     process.exit();
   });
 
+  // Loop through the questions and prompt the user
   for (let i = 0; i < questions.length; i++) {
     const q = questions[i];
 
@@ -22,7 +24,7 @@ async function startGame() {
       choices: q.options.map(option => ({ name: option, value: option })),
     });
 
-    if (answer === q.answer) {
+    if (checkAnswer(answer, q.answer)) {
       console.log(chalk.green("Correct!!"));
       score++;
     } else {
