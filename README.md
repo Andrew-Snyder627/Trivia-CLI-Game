@@ -28,31 +28,6 @@ chalk — for colorful CLI output
 
 jest — for unit testing core logic
 
-📂 Project Structure
-
-trivia-cli-game/
-├── __tests__/             # Unit tests (Jest)
-
-│   └── utils.test.js
-
-├── data/
-
-│   └── questions.js       # All trivia questions
-
-├── src/
-
-│   ├── game.js            # Main game logic
-
-│   ├── timer.js           # Countdown timer
-
-│   └── utils.js           # Reusable logic for answers, filtering, shuffling
-
-├── index.js               # Game entry point
-
-├── package.json
-
-└── README.md
-
 🚀 Getting Started
 1. Clone the Repo
 git clone https://github.com/Andrew-Snyder627/trivia-cli-game.git
