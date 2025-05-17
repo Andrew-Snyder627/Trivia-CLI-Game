@@ -20,4 +20,8 @@ describe("checkAnswer", () => {
   test("returns false for similar but not matching answers", () => {
     expect(checkAnswer("Frances", "France")).toBe(false);
   });
+
+  test("correctly validates fill-in-the-blank style answer", () => {
+    expect(checkAnswer("france", "France")).toBe(true);
+  });
 });

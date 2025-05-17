@@ -18,11 +18,18 @@ async function startGame() {
   // Loop through the questions and prompt the user
   for (let i = 0; i < questions.length; i++) {
     const q = questions[i];
+    let answer;
 
-    const answer = await prompts.select({
-      message: `\n${q.question}`,
-      choices: q.options.map(option => ({ name: option, value: option })),
-    });
+    if (q.type === "multiple-choice") {
+      answer = await prompts.select({
+        message: `\n${q.question}`,
+        choices: q.options.map(option => ({ name: option, value: option })),
+      });
+    } else if (q.type === "fill-in-the-blank") {
+        answer = await prompts.input({
+        message: `\n${q.question} (Type your answer):`,
+      });
+    }
 
     if (checkAnswer(answer, q.answer)) {
       console.log(chalk.green("Correct!!"));
