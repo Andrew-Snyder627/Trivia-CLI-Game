@@ -1,4 +1,4 @@
-const { checkAnswer, shuffleArray } = require('../src/utils');
+const { checkAnswer, shuffleArray, filterByCategory } = require('../src/utils');
 
 describe("checkAnswer", () => {
   test("returns true for exact match", () => {
@@ -45,5 +45,30 @@ describe("shuffleArray", () => {
     // There's a slim chance it matches, but this is a fair randomness test
     const isSameOrder = original.every((value, index) => value === shuffled[index]);
     expect(isSameOrder).toBe(false);
+  });
+});
+
+describe("filterByCategory", () => {
+  const mockQuestions = [
+    { category: "Sports", question: "Q1" },
+    { category: "Movies", question: "Q2" },
+    { category: "History", question: "Q3" },
+    { category: "Movies", question: "Q4" }
+  ];
+
+  test("returns only questions from the selected category", () => {
+    const result = filterByCategory(mockQuestions, "Movies");
+    expect(result).toHaveLength(2);
+    expect(result.every(q => q.category === "Movies")).toBe(true);
+  });
+
+  test("returns all questions when 'All Categories' is selected", () => {
+    const result = filterByCategory(mockQuestions, "All Categories");
+    expect(result).toHaveLength(4);
+  });
+
+  test("returns an empty array when no questions match the category", () => {
+    const result = filterByCategory(mockQuestions, "Science");
+    expect(result).toEqual([]);
   });
 });

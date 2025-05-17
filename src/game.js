@@ -2,20 +2,32 @@ const prompts = require("@inquirer/prompts");
 const chalk = require("chalk");
 const questions = require("../data/questions");
 const { startTimer } = require("./timer");
-const { checkAnswer, shuffleArray } = require("./utils");
+const { checkAnswer, shuffleArray, filterByCategory } = require("./utils");
 
 async function startGame() {
-  console.log(chalk.green("\n Welcome to the Sports Trivia Challenge!!"));
+  console.log(chalk.green("\n Welcome to the Trivia Challenge!!"));
   let score = 0;
+
+  // Select a category
+  const categories = [...new Set(questions.map(q => q.category))];
+  categories.unshift("All Categories");
+
+  const selectedCategory = await prompts.select({
+    message: "Choose a category:",
+    choices: categories.map(c => ({name: c, value: c })),
+  });
+
+  const filteredQuestions = filterByCategory(questions, selectedCategory);
+
+  // Shuffle the questions
+  const shuffledQuestions = shuffleArray(filteredQuestions);
 
   // Start a total game timer
   const gameTimer = startTimer(60, () => {
     console.log(chalk.red("\nGame over!"));
-    console.log(`You scored ${score}/${questions.length}`);
+    console.log(`You scored ${score}/${shuffledQuestions.length}`);
     process.exit();
   });
-
-  const shuffledQuestions = shuffleArray(questions)
 
   // Loop through the questions and prompt the user
   for (let i = 0; i < shuffledQuestions.length; i++) {
